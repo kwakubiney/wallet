@@ -269,6 +269,10 @@ paket-files/
 .idea/
 *.sln.iml
 
+bin
+obj
+packages
+
 # CodeRush
 .cr/
 
