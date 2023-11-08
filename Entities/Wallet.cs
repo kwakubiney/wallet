@@ -28,6 +28,9 @@ namespace Personal.Models{
         public Type Type {get; set;}
 
         [Required]
+        public Scheme Scheme {get; set;}
+
+        [Required]
         public string Owner {get; set;}
     }
 
@@ -36,5 +39,18 @@ namespace Personal.Models{
              MOMO,
             [Description("CARD")]
             CARD
+        }
+
+        public enum Scheme{
+            [Description("VISA")]
+            VISA,
+            [Description("MASTERCARD")]
+            MASTERCARD,
+            [Description("VODAFONE")]
+            VODAFONE,
+            [Description("MTN")]
+            MTN,
+            [Description("AIRTELTIGO")]
+            AIRTELTIGO
         }
 }   

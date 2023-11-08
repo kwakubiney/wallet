@@ -31,8 +31,8 @@ public class JWTGenerator : IJwtGenerator{
         var jwt = new JwtSecurityToken(
             jwtHeader,
             new JwtPayload(
-                issuer: _configuration["Issuer"],
-                audience : _configuration["Issuer"],
+                issuer: _configuration["Jwt:Issuer"],
+                audience : _configuration["Jwt:Issuer"],
                 claims: jwtClaims,
                 notBefore: jwtTime,
                 expires: jwtTime.AddSeconds(tokenLifeTimeInSeconds)

@@ -12,7 +12,7 @@ using Personal.DataContext;
 namespace wallet.Migrations
 {
     [DbContext(typeof(WalletContext))]
-    [Migration("20231108102731_InitialCreate")]
+    [Migration("20231108224329_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -75,6 +75,10 @@ namespace wallet.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("Owner")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Scheme")
                         .IsRequired()
                         .HasColumnType("text");
 

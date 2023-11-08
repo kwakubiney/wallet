@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Auth.Helpers.Implementations;
 using Auth.Helpers.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -8,8 +9,12 @@ using Personal.DataContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddControllers().AddJsonOptions(x =>{
+// serialize enums as strings in api responses (e.g. Role)
+x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());});
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 //TODO: Read from environment variables
 builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
 "Host=localhost; Database=postgres; Username=postgres; Password=postgres; Port=5433"));
@@ -49,6 +54,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 
