@@ -1,9 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Personal.DataContext;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
+"Host=localhost; Database=wallet; Username=postgres; Password=postgres"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
