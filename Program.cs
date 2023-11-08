@@ -1,3 +1,5 @@
+using Auth.Helpers.Implementations;
+using Auth.Helpers.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Personal.DataContext;
 
@@ -8,6 +10,7 @@ builder.Services.AddControllers();
 //TODO: Read from environment variables
 builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
 "Host=localhost; Database=postgres; Username=postgres; Password=postgres; Port=5433"));
+builder.Services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
