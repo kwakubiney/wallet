@@ -14,7 +14,6 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
 "Host=localhost; Database=postgres; Username=postgres; Password=postgres; Port=5433"));
 builder.Services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
-// builder.Services.AddSingleton<AppConfig>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IJwtGenerator, JWTGenerator>();
