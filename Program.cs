@@ -5,8 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddControllers();
+//TODO: Read from environment variables
 builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
-"Host=localhost; Database=wallet; Username=postgres; Password=postgres"));
+"Host=localhost; Database=postgres; Username=postgres; Password=postgres; Port=5433"));
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
