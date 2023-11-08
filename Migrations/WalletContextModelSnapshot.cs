@@ -75,6 +75,10 @@ namespace wallet.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Scheme")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasColumnType("text");

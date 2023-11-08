@@ -38,6 +38,7 @@ namespace wallet.Migrations
                     AccountNumber = table.Column<string>(type: "text", nullable: false),
                     User = table.Column<int>(type: "integer", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
+                    Scheme = table.Column<string>(type: "text", nullable: false),
                     Owner = table.Column<string>(type: "text", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)

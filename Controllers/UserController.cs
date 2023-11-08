@@ -60,7 +60,9 @@ public class UserController: BaseController{
             return BadRequest("Password entered is incorrect");
         }
         JWTGenerator token = _jWTGenerator.AddClaim(
-            new Claim(ClaimTypes.Name, user.Username)
+            new Claim("username", user.Username)
+        ).AddClaim(
+            new Claim("id", user.Id.ToString())
         );
         return Ok(new ResponseDTO<LoginUserResponseDto>(){
             message = "User has successfully logged in",

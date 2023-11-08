@@ -17,6 +17,11 @@ namespace Personal.DataContext
                 .Entity<Wallet>()
                 .Property(d => d.Type)
                 .HasConversion(new EnumToStringConverter<Personal.Models.Type>());
+
+            _ = modelBuilder
+                .Entity<Wallet>()
+                .Property(d => d.Scheme)
+                .HasConversion(new EnumToStringConverter<Personal.Models.Scheme>());
             }
 
         public override int SaveChanges()
