@@ -4,7 +4,9 @@ using Personal.Models;
 
 namespace Personal.DataContext
 {
-    public class WalletContext(DbContextOptions<WalletContext> options) : DbContext(options){
+    public class WalletContext: DbContext{
+        public WalletContext(DbContextOptions<WalletContext> options):base(options){
+        }
         public DbSet<User> Users { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
 
