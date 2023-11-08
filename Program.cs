@@ -1,6 +1,9 @@
+using System.Text;
 using Auth.Helpers.Implementations;
 using Auth.Helpers.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Personal.DataContext;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +16,26 @@ builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
 builder.Services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<IJwtGenerator, JWTGenerator>();
+ConfigurationManager configuration = builder.Configuration;
+var jwtSection = configuration.GetSection("Jwt");
+var issuer = jwtSection["Issuer"];
+var key = jwtSection["Key"];
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.IncludeErrorDetails = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {   
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = issuer,
+            ValidAudience = issuer,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        };
+    });
 
 var app = builder.Build();
 
@@ -24,7 +47,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
