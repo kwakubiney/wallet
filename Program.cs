@@ -21,7 +21,7 @@ builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
 builder.Services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddSingleton<IJwtGenerator, JWTGenerator>();
+builder.Services.AddScoped<IJwtGenerator, JWTGenerator>();
 ConfigurationManager configuration = builder.Configuration;
 var jwtSection = configuration.GetSection("Jwt");
 var issuer = jwtSection["Issuer"];

@@ -1,3 +1,5 @@
+using Microsoft.IdentityModel.Tokens;
+
 namespace Personal.Models
 {
     public class WalletResponseDto
@@ -10,5 +12,8 @@ namespace Personal.Models
         public Scheme Scheme {get; set;}
         public Type Type {get; set;}
         public string Owner {get; set;}
+
+        public DateTime CreatedAt {get; set;}
+        public DateTime UpdatedAt {get; set;}
     }
 }
