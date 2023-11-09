@@ -10,18 +10,18 @@ namespace Personal.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Account number is required.")]
-        public string AccountNumber {get; set;}
+        public string AccountNumber { get; set; }
 
         [Required(ErrorMessage = "User ID is required")]
-        public string User {get; set;}
+        public string User { get; set; }
 
         [Required(ErrorMessage = "Account type is required")]
-        public Type Type {get; set;}
+        public Type Type { get; set; }
 
         [Required(ErrorMessage = "Account scheme is required")]
-        public Scheme Scheme {get; set;}
+        public Scheme Scheme { get; set; }
 
         [Required(ErrorMessage = "Owner phone number is required")]
-        public string Owner {get; set;}
+        public string Owner { get; set; }
     }
 }

@@ -7,13 +7,13 @@ namespace Personal.Models
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public string AccountNumber {get; set;}
+        public string AccountNumber { get; set; }
 
-        public Scheme Scheme {get; set;}
-        public Type Type {get; set;}
-        public string Owner {get; set;}
+        public Scheme Scheme { get; set; }
+        public Type Type { get; set; }
+        public string Owner { get; set; }
 
-        public DateTime CreatedAt {get; set;}
-        public DateTime UpdatedAt {get; set;}
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

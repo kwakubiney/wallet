@@ -9,9 +9,10 @@ using Personal.DataContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers().AddJsonOptions(x =>{
-// serialize enums as strings in api responses (e.g. Role)
-x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());});
+builder.Services.AddControllers().AddJsonOptions(x =>
+{
+    x.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
@@ -31,7 +32,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.IncludeErrorDetails = true;
         options.TokenValidationParameters = new TokenValidationParameters
-        {   
+        {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
