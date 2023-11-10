@@ -18,7 +18,7 @@ namespace Personal.Models
         [Required]
         public string Name { get; set; }
 
-        [StringLength(10, MinimumLength = 10)]
+        [MinLength(10)]
         [Required]
         public string AccountNumber { get; set; }
 
