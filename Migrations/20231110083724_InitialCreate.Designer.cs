@@ -12,7 +12,7 @@ using Personal.DataContext;
 namespace wallet.Migrations
 {
     [DbContext(typeof(WalletContext))]
-    [Migration("20231108224329_InitialCreate")]
+    [Migration("20231110083724_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -37,6 +37,10 @@ namespace wallet.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -65,7 +69,8 @@ namespace wallet.Migrations
 
                     b.Property<string>("AccountNumber")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");

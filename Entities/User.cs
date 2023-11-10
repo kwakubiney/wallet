@@ -17,6 +17,9 @@ namespace Personal.Models
         [Required]
         public string Password { get; set; }
 
+        [Required]
+        public string PhoneNumber { get; set; }
+
         [InverseProperty(nameof(Wallet.OwnerId))]
         public ICollection<Wallet> Wallets { get; }
     }

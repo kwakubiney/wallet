@@ -11,13 +11,12 @@ public class UserController : BaseController
 {
 
     private readonly IPasswordHasher _hasher;
-    private readonly IConfiguration _configuration;
+
     private readonly IJwtGenerator _jWTGenerator;
 
-    public UserController(IPasswordHasher hasher, IConfiguration configuration, IJwtGenerator jWTGenerator)
+    public UserController(IPasswordHasher hasher, IJwtGenerator jWTGenerator)
     {
         _hasher = hasher;
-        _configuration = configuration;
         _jWTGenerator = jWTGenerator;
     }
 
@@ -26,19 +25,21 @@ public class UserController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest();
+            return ModelState.As<BadRequestObjectResult>(); ;
         }
         var userToBeSaved = new User
         {
             Username = payload.Username,
-            Password = _hasher.Hash(payload.Password)
+            Password = _hasher.Hash(payload.Password),
+            PhoneNumber = payload.PhoneNumber
         };
         DbContext.Users.Add(userToBeSaved);
         DbContext.SaveChanges();
         var response = new CreateUserResponseDto
         {
             Username = payload.Username,
-            Id = userToBeSaved.Id
+            Id = userToBeSaved.Id,
+            PhoneNumber = payload.PhoneNumber
         };
 
         string uri = $"https://localhost/api/v1/user/{userToBeSaved.Id}";
@@ -51,11 +52,11 @@ public class UserController : BaseController
     }
 
     [HttpGet("login")]
-    public IActionResult LoginUser([FromBody] CreateUserPayload payload)
+    public IActionResult LoginUser([FromBody] LoginUserPayload payload)
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest();
+            return ModelState.As<BadRequestObjectResult>(); ;
         }
         var user = DbContext.Users.FirstOrDefault(u => u.Username == payload.Username);
         if (user == null)

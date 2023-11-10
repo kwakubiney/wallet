@@ -10,6 +10,7 @@ namespace Personal.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Account number is required.")]
+        [StringLength(10, MinimumLength=10)]
         public string AccountNumber { get; set; }
 
         [Required(ErrorMessage = "User ID is required")]
@@ -20,8 +21,5 @@ namespace Personal.Models
 
         [Required(ErrorMessage = "Account scheme is required")]
         public Scheme Scheme { get; set; }
-
-        [Required(ErrorMessage = "Owner phone number is required")]
-        public string Owner { get; set; }
     }
 }
