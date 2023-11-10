@@ -10,7 +10,7 @@ namespace Personal.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Account number is required.")]
-        [StringLength(10, MinimumLength=10)]
+        [MinLength(10)]
         public string AccountNumber { get; set; }
 
         [Required(ErrorMessage = "User ID is required")]
