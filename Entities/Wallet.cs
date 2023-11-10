@@ -17,7 +17,7 @@ namespace Personal.Models
         [Required]
         public string Name { get; set; }
 
-        //TODO: Truncate AccountNumber to first 10 on saving
+        [StringLength(10, MinimumLength = 10)]
         [Required]
         public string AccountNumber { get; set; }
 

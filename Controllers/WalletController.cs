@@ -15,7 +15,7 @@ public class WalletController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            return ModelState.As<BadRequestObjectResult>();;
         }
         var loggedInUserId = User.FindFirst("id")?.Value;
         if (payload.User.ToString() != loggedInUserId)
@@ -79,7 +79,7 @@ public class WalletController : BaseController
             Type = payload.Type,
             AccountNumber = accountNumber,
             OwnerId = user,
-            Owner = payload.Owner
+            Owner = user.PhoneNumber
         };
 
         DbContext.Wallets.Add(walletToBeSaved);
@@ -91,7 +91,7 @@ public class WalletController : BaseController
             Scheme = payload.Scheme,
             Type = payload.Type,
             AccountNumber = accountNumber,
-            Owner = payload.Owner,
+            Owner = user.PhoneNumber,
             CreatedAt = walletToBeSaved.CreatedAt,
             UpdatedAt = walletToBeSaved.UpdatedAt
         };

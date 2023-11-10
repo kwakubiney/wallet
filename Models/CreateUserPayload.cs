@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Personal.Entities;
 
 namespace Personal.Models
 {
@@ -12,5 +11,8 @@ namespace Personal.Models
 
         [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Phone number is required.")]
+        public string PhoneNumber { get; set; }
     }
 }
