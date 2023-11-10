@@ -36,7 +36,7 @@ namespace wallet.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    AccountNumber = table.Column<string>(type: "character varying(10)", maxLength: 10, nullable: false),
+                    AccountNumber = table.Column<string>(type: "text", nullable: false),
                     User = table.Column<int>(type: "integer", nullable: false),
                     Type = table.Column<string>(type: "text", nullable: false),
                     Scheme = table.Column<string>(type: "text", nullable: false),
@@ -65,6 +65,12 @@ namespace wallet.Migrations
                 name: "IX_Wallets_AccountNumber",
                 table: "Wallets",
                 column: "AccountNumber",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Wallets_Name",
+                table: "Wallets",
+                column: "Name",
                 unique: true);
 
             migrationBuilder.CreateIndex(
