@@ -8,6 +8,7 @@ namespace Personal.Models
 {
 
     [Index(nameof(AccountNumber), IsUnique = true)]
+    [Index(nameof(Name), IsUnique = true)]
     public class Wallet : BaseEntity
     {
 

@@ -15,7 +15,7 @@ public class WalletController : BaseController
     {
         if (!ModelState.IsValid)
         {
-            return ModelState.As<BadRequestObjectResult>();;
+            return ModelState.As<BadRequestObjectResult>(); ;
         }
         var loggedInUserId = User.FindFirst("id")?.Value;
         if (payload.User.ToString() != loggedInUserId)
@@ -38,16 +38,17 @@ public class WalletController : BaseController
         string accountNumber = payload.Type == Personal.Models.Type.CARD
                                    ? payload.AccountNumber.Length > 10 ? payload.AccountNumber.Substring(0, 10) : payload.AccountNumber
                                    : payload.AccountNumber;
+        var existingWallet = DbContext.Wallets.FirstOrDefault(w => w.AccountNumber == accountNumber || w.Name == payload.Name);
 
-        var wallet = DbContext.Wallets.FirstOrDefault(w => w.AccountNumber == accountNumber);
-        if (wallet != null)
+        if (existingWallet != null)
         {
-            return BadRequest(
-                new ResponseDTO<string>()
-                {
-                    data = null,
-                    message = "Wallet with account number specified already exists"
-                });
+            return BadRequest(new ResponseDTO<string>
+            {
+                data = null,
+                message = existingWallet.AccountNumber == accountNumber
+                    ? "Wallet with account number specified already exists"
+                    : "Wallet with account name specified already exists"
+            });
         }
 
         var user = DbContext.Users.Include(u => u.Wallets).FirstOrDefault(u => u.Id.ToString() == payload.User);
