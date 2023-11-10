@@ -27,6 +27,18 @@ public class UserController : BaseController
         {
             return ModelState.As<BadRequestObjectResult>(); ;
         }
+
+        var existingUser = DbContext.Users.FirstOrDefault(u => u.Username == payload.Username);
+
+        if (existingUser != null)
+        {
+            return BadRequest(new ResponseDTO<string>
+            {
+                data = null,
+                message = "User with username specified already exists"
+            });
+        }
+        
         var userToBeSaved = new User
         {
             Username = payload.Username,
