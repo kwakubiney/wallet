@@ -16,17 +16,20 @@ builder.Services.AddControllers().AddJsonOptions(x =>
 
 builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
-//TODO: Read from environment variables
-builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
-"Host=localhost; Database=postgres; Username=postgres; Password=postgres; Port=5433"));
+
 builder.Services.AddSingleton<IPasswordHasher, BcryptPasswordHasher>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IJwtGenerator, JWTGenerator>();
+
 ConfigurationManager configuration = builder.Configuration;
 var jwtSection = configuration.GetSection("Jwt");
+var postgresSection = configuration.GetSection("Postgres");
 var issuer = jwtSection["Issuer"];
 var key = jwtSection["Key"];
+
+builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
+postgresSection["ConnectionString"]));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
