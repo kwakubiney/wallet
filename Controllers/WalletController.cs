@@ -17,13 +17,16 @@ public class WalletController : BaseController
         {
             return ModelState.As<BadRequestObjectResult>(); ;
         }
+
         var loggedInUserId = User.FindFirst("id")?.Value;
         if (payload.User.ToString() != loggedInUserId)
         {
             return Unauthorized("User is not authorized to create this wallet");
         }
+
         List<string> listOfVendors = new List<string>() { "vodafone", "mtn", "airteltigo" };
         List<string> listOfSchemes = new List<string>() { "visa", "mastercard" };
+
         if (payload.Type == Personal.Models.Type.MOMO && !listOfVendors.Contains(payload.Scheme.ToString().ToLower())
          || (payload.Type == Personal.Models.Type.CARD && !listOfSchemes.Contains(payload.Scheme.ToString().ToLower()))
          )
@@ -35,9 +38,19 @@ public class WalletController : BaseController
             });
         }
 
+        if (payload.Type == Personal.Models.Type.MOMO && payload.AccountNumber.Length != 10)
+        {
+            return BadRequest(new ResponseDTO<string>()
+            {
+                data = null,
+                message = "Invalid MOMO number. Limit to 10 digits"
+            });
+        }
+
         string accountNumber = payload.Type == Personal.Models.Type.CARD
                                    ? payload.AccountNumber.Length > 10 ? payload.AccountNumber.Substring(0, 10) : payload.AccountNumber
                                    : payload.AccountNumber;
+
         var existingWallet = DbContext.Wallets.FirstOrDefault(w => w.AccountNumber == accountNumber || w.Name == payload.Name);
 
         if (existingWallet != null)
@@ -45,13 +58,11 @@ public class WalletController : BaseController
             return BadRequest(new ResponseDTO<string>
             {
                 data = null,
-                message = existingWallet.AccountNumber == accountNumber
-                    ? "Wallet with account number specified already exists"
-                    : "Wallet with account name specified already exists"
+                message = "Duplicate account creation attempted"
             });
         }
 
-        var user = DbContext.Users.Include(u => u.Wallets).FirstOrDefault(u => u.Id.ToString() == payload.User);
+        var user = DbContext.Users.Include(u => u.Wallets).FirstOrDefault(u => u.Id == payload.User);
         if (user == null)
         {
             return NotFound(
@@ -71,6 +82,16 @@ public class WalletController : BaseController
                     data = null,
                     message = "User cannot create more than 5 wallets"
                 });
+        }
+
+        if (user.Wallets.Any(wallet => wallet.Name == payload.Name))
+        {
+            return BadRequest(
+                   new ResponseDTO<string>()
+                   {
+                       data = null,
+                       message = "Duplicate account creation attempted"
+                   });
         }
 
         var walletToBeSaved = new Wallet
@@ -120,11 +141,13 @@ public class WalletController : BaseController
                 }
             );
         }
+
         var loggedInUserId = User.FindFirst("id")?.Value;
         if (wallet.OwnerId.Id.ToString() != loggedInUserId)
         {
             return Unauthorized("User is not authorized to view this wallet");
         }
+
         return Ok(
             new ResponseDTO<WalletResponseDto>()
             {
@@ -148,11 +171,13 @@ public class WalletController : BaseController
     [HttpGet("user/{id}/wallets/")]
     public IActionResult GetWallets(int id)
     {
+
         var loggedInUserId = User.FindFirst("id")?.Value;
         if (id.ToString() != loggedInUserId)
         {
             return Unauthorized("User is not authorized to view this wallet");
         }
+
         var user = DbContext.Users.Include(u => u.Wallets).FirstOrDefault(u => u.Id.ToString() == id.ToString());
         if (user == null)
         {
@@ -208,11 +233,14 @@ public class WalletController : BaseController
                 }
             );
         }
+
         var loggedInUserId = User.FindFirst("id")?.Value;
         if (wallet.OwnerId.Id.ToString() != loggedInUserId)
         {
             return Unauthorized("User is not authorized to delete this wallet");
         }
+
+
         DbContext.Wallets.Where(w => w.Id == id).ExecuteDeleteAsync();
         return Ok(
             new ResponseDTO<string>()

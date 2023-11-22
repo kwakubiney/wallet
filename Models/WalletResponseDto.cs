@@ -1,5 +1,3 @@
-using Microsoft.IdentityModel.Tokens;
-
 namespace Personal.Models
 {
     public class WalletResponseDto

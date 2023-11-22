@@ -12,7 +12,7 @@ using Personal.DataContext;
 namespace wallet.Migrations
 {
     [DbContext(typeof(WalletContext))]
-    [Migration("20231110114835_InitialCreate")]
+    [Migration("20231122193202_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

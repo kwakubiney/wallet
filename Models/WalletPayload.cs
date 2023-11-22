@@ -14,7 +14,7 @@ namespace Personal.Models
         public string AccountNumber { get; set; }
 
         [Required(ErrorMessage = "User ID is required")]
-        public string User { get; set; }
+        public int User { get; set; }
 
         [Required(ErrorMessage = "Account type is required")]
         public Type Type { get; set; }
