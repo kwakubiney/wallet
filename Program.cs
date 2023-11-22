@@ -30,6 +30,7 @@ var key = jwtSection["Key"];
 
 builder.Services.AddDbContext<WalletContext>(options => options.UseNpgsql(
 postgresSection["ConnectionString"]));
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

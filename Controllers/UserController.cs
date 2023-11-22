@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Security.Claims;
 using Auth.Helpers.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -38,7 +37,7 @@ public class UserController : BaseController
                 message = "User with username specified already exists"
             });
         }
-        
+
         var userToBeSaved = new User
         {
             Username = payload.Username,
@@ -78,19 +77,21 @@ public class UserController : BaseController
 
         if (!_hasher.ValidateHash(payload.Password, user.Password))
         {
-            return BadRequest("Password entered is incorrect");
+            return BadRequest("Details entered are incorrect");
         }
-        JWTGenerator token = _jWTGenerator.AddClaim(
+
+        JWTGenerator generator = _jWTGenerator.AddClaim(
             new Claim("username", user.Username)
         ).AddClaim(
             new Claim("id", user.Id.ToString())
         );
+
         return Ok(new ResponseDTO<LoginUserResponseDto>()
         {
             message = "User has successfully logged in",
             data = new LoginUserResponseDto()
             {
-                Token = token.GetToken()
+                Token = generator.GetToken()
             }
         });
     }
